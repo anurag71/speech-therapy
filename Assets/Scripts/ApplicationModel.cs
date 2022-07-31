@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ApplicationModel
+public static class ApplicationModel
 {
     public static List<List<string>> TrialSet =  new List<List<string>>();
     public static List<List<string>> PreTestingSet = new List<List<string>>();

@@ -9,38 +9,10 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
-    public void MainMenuReturn()
+    public void QuitGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-    }
-
-    public void QuitGame(){
-        Debug.Log("QUIT!");
+        //Debug.Log("QUIT!");
         Application.Quit();
-    }
-
-    public void SetTrialSet()
-    {
-        ApplicationModel.set = 1;
-        PlayGame();
-    }
-
-    public void SetPreTestingSet()
-    {
-        ApplicationModel.set = 2;
-        PlayGame();
-    }
-
-    public void SetPracticeSet()
-    {
-        ApplicationModel.set = 3;
-        PlayGame();
-    }
-
-    public void SetPostTestingSet()
-    {
-        ApplicationModel.set = 4;
-        PlayGame();
     }
 
 }

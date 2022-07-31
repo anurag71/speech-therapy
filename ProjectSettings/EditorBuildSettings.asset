@@ -12,10 +12,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: a5f615af22b144bedb9e69a5f8f236b4
   - enabled: 1
+    path: Assets/Scenes/Set Select Screen.unity
+    guid: 4b8c124518877184daa3b03b35423987
+  - enabled: 1
     path: Assets/Scenes/Level Select Screen.unity
     guid: 8c792c8906b33464da171ee504aeb7c5
   - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 64b2b9f13d89c439488826acd19d3b08
   m_configObjects:
+    com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 9fc98e72f5f9fdc48890ea22a2446759, type: 2}
+    com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 6119bb8d58aaabb488be8720b5b2119e, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: f51ef2118b3d348ca95cfd5f8f0d6cf9, type: 2}

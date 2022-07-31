@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class LevelSelector : MonoBehaviour
 {
@@ -83,6 +84,11 @@ public class LevelSelector : MonoBehaviour
             icon.name = "Level " + i;
             icon.GetComponentInChildren<TextMeshProUGUI>().SetText(currentLevelCount.ToString());
         }
+    }
+
+    public void Back()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 
     private void Update()

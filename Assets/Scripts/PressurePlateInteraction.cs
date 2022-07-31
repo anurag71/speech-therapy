@@ -2,54 +2,69 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Linq;
 
 public class PressurePlateInteraction : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI SentenceHolder;
     [SerializeField] private TextMeshProUGUI PopupTextHolder;
     [SerializeField] private GameObject StageCompletionAlert;
+    [SerializeField] private GameObject SentenceCompletionAlert;
 
     int stage=1;
     int collision_count=0;
     string popupText = "TAP";
-    int sentence_length = ApplicationModel.current_sentence.Count;
+    int sentence_length;
+
+    private void Start()
+    {
+        sentence_length = ApplicationModel.current_sentence.Count;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Collision detected");
+       // Mesh mesh = collision.CreateMesh(false, false);
+      //  mesh.Optimize();
+
+        //LineRenderer myLine = new LineRenderer();
+        //myLine.loop = true;
+
+        //Vector3[] positions = mesh.vertices;
+        //positions = positions.OrderBy(pos => Vector3.SignedAngle(pos.normalized, Vector3.up, Vector3.forward)).ToArray();
+
+        //myLine.positionCount = positions.Length;
+        //myLine.SetPositions(positions);
+
+
+        //Debug.Log("Collision detected");
         PopupTextHolder.SetText(popupText);
         collision_count++;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("Stage : "+ stage);
+        //Debug.Log("Stage : "+ stage);
         PopupTextHolder.SetText("");
-        if (collision_count % (3*sentence_length) == 0 && collision_count > 0)
+        if (collision_count % (3*sentence_length) == 0 && collision_count > 0 && stage<3)
         {
-            stage += 1;
+            stage += 2;
             StageCompletionAlert.SetActive(true);
-            
-
         }
-        if (collision_count >= (3*sentence_length))
+        else if (stage == 3 && collision_count >= (2 * 3 * sentence_length))
         {
-            Animator animator = SentenceHolder.GetComponent<Animator>();
-            animator.enabled = false;
-            Destroy(SentenceHolder.GetComponent<Rigidbody2D>());
+            SentenceCompletionAlert.SetActive(true);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (StageCompletionAlert.activeSelf)
+        if (SentenceCompletionAlert.activeSelf)
         {
             Time.timeScale = 0f;
         }
-        else
+        if (StageCompletionAlert.activeSelf)
         {
-            Time.timeScale = 1f;
+            Time.timeScale = 0f;
         }
         if (stage == 2)
         {
