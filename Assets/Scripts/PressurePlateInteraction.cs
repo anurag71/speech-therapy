@@ -11,6 +11,7 @@ public class PressurePlateInteraction : MonoBehaviour
     [SerializeField] private GameObject StageCompletionAlert;
     [SerializeField] private GameObject SentenceCompletionAlert;
     [SerializeField] private GameObject PauseMenu;
+    [SerializeField] private GameObject UserChancePrompt;
     [SerializeField] private GameObject Stage1Prompt;
     [SerializeField] private GameObject Stage2Prompt;
     [SerializeField] private GameObject Stage3Prompt;
@@ -49,21 +50,32 @@ public class PressurePlateInteraction : MonoBehaviour
         if (stage > 1)
         {
             WordSound = PopupTextHolder.GetComponent<AudioSource>();
-
             WordSound.clip = Resources.Load<AudioClip>("WordSounds/" + gameObject.GetComponentInChildren<TextMeshProUGUI>().text);
             WordSound.Play();
         }
 
-        //Debug.Log("Collision detected");
+        Time.timeScale = 0f;
+
         PopupTextHolder.GetComponentInChildren<TextMeshProUGUI>().SetText(popupText);
+
+        Time.timeScale = 1;
+
         collision_count++;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         //Debug.Log("Stage : "+ stage);
+
+        if ((collision_count / (3 * sentence_length)) % 2 != 0 && (collision_count % (3*sentence_length)==0) && collision_count >= 3 * sentence_length && stage <= 3)
+        {
+            UserChancePrompt.SetActive(true);
+        }
+
+
+
         PopupTextHolder.GetComponentInChildren<TextMeshProUGUI>().SetText("");
-        if (collision_count % (3*sentence_length) == 0 && collision_count > 0 && stage<3)
+        if (collision_count % (2*3*sentence_length) == 0 && collision_count > 0 && stage<3)
         {
             stage += 1;
             foreach(GameObject gameObject in gameObjects)
@@ -79,7 +91,7 @@ public class PressurePlateInteraction : MonoBehaviour
                 Stage3Prompt.SetActive(true);
             }
         }
-        else if (stage == 3 && collision_count >= (3 * 3 * sentence_length))
+        else if (stage == 3 && collision_count >= (3 * 6 * sentence_length))
         {
             foreach (GameObject gameObject in gameObjects)
             {
@@ -103,13 +115,31 @@ public class PressurePlateInteraction : MonoBehaviour
 
     public void MainMenu()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(2);
         Time.timeScale = 1;
     }
 
-    public void Pause ()
+    public void Retry()
+    {
+        SceneManager.LoadScene(3);
+        Time.timeScale = 1;
+    }
+
+    public void Pause()
     {
         Time.timeScale = 1;
+        if (Stage1Prompt.activeSelf)
+        {
+            Stage1Prompt.GetComponent<AudioSource>().Play();
+        }
+        else if (Stage2Prompt.activeSelf)
+        {
+            Stage2Prompt.GetComponent<AudioSource>().Play();
+        }
+        else if (Stage3Prompt.activeSelf)
+        {
+            Stage3Prompt.GetComponent<AudioSource>().Play();
+        }
         StartCoroutine(delayedAnimation());
     }
 
@@ -146,6 +176,26 @@ void Update()
             Time.timeScale = 0f;
         }
         if (PauseMenu.activeSelf)
+        {
+            foreach (GameObject gameObject in gameObjects)
+            {
+                gameObject.SetActive(false);
+            }
+            if (Stage1Prompt.activeSelf)
+            {
+                Stage1Prompt.GetComponent<AudioSource>().Pause();
+            }
+            else if (Stage2Prompt.activeSelf)
+            {
+                Stage2Prompt.GetComponent<AudioSource>().Pause();
+            }
+            else if (Stage3Prompt.activeSelf)
+            {
+                Stage3Prompt.GetComponent<AudioSource>().Pause();
+            }
+            Time.timeScale = 0f;
+        }
+        if (UserChancePrompt.activeSelf)
         {
             foreach (GameObject gameObject in gameObjects)
             {
