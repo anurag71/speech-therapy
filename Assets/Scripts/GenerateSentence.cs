@@ -49,7 +49,7 @@ public class GenerateSentence : MonoBehaviour
             clip.name = "WordAnimationClipAuto"; // set name
             clip.legacy = true;
             clip.wrapMode = WrapMode.Loop;
-            clip.frameRate = 60;
+            clip.frameRate = 61;
             clip.SetCurve("", typeof(Transform), "localPosition.x", curve);
 
             curve = AnimationCurve.Linear(m_start_time, position.y, m_end_time, position.y);

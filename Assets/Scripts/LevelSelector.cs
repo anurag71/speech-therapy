@@ -20,21 +20,9 @@ public class LevelSelector : MonoBehaviour
 
     private void Start()
     {
-        if (ApplicationModel.set == 1)
-        {
-            numberOfLevels = ApplicationModel.TrialSet.Count;
-        }
-        else if (ApplicationModel.set == 2)
+        if (ApplicationModel.set == 2)
         {
             numberOfLevels = ApplicationModel.PreTestingSet.Count;
-        }
-        else if (ApplicationModel.set == 3)
-        {
-            numberOfLevels = ApplicationModel.PracticeSet.Count;
-        }
-        else if (ApplicationModel.set == 4)
-        {
-            numberOfLevels = ApplicationModel.PostTestingSet.Count;
         }
         panelDimensions = levelHolder.GetComponent<RectTransform>().rect;
         iconDimensions = levelIcon.GetComponent<RectTransform>().rect;
