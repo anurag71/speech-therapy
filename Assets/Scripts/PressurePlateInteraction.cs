@@ -13,6 +13,8 @@ public class PressurePlateInteraction : MonoBehaviour
     [SerializeField] private GameObject PauseMenu;
     [SerializeField] private GameObject UserChancePrompt;
     [SerializeField] private GameObject StageText;
+    bool CountTime = true;
+    float seconds = 0;
 
     AudioSource WordSound;
     HashSet<GameObject> gameObjects = new HashSet<GameObject>();
@@ -45,6 +47,8 @@ public class PressurePlateInteraction : MonoBehaviour
 
         GameObject gameObject = collision.gameObject;
 
+        //Debug.Log("Collision Time for " + gameObject.GetComponentInChildren<TextMeshProUGUI>().text + " : " + Time.timeAsDouble);
+
         collision.gameObject.GetComponentInChildren<TextMeshProUGUI>().outlineWidth = 0.2f;
         collision.gameObject.GetComponentInChildren<TextMeshProUGUI>().outlineColor = new Color32(255, 128, 0, 255);
 
@@ -53,6 +57,7 @@ public class PressurePlateInteraction : MonoBehaviour
             WordSound = PopupTextHolder.GetComponent<AudioSource>();
             WordSound.clip = Resources.Load<AudioClip>("WordSounds/" + gameObject.GetComponentInChildren<TextMeshProUGUI>().text);
             WordSound.Play();
+            //Debug.Log("Sound Played Time for " + gameObject.GetComponentInChildren<TextMeshProUGUI>().text + " : " + Time.timeAsDouble);
         }
 
         Time.timeScale = 0f;
@@ -95,6 +100,8 @@ public class PressurePlateInteraction : MonoBehaviour
         }
         else if (stage == 5 && collision_count >= (5 * 3 * sentence_length))
         {
+            CountTime = false;
+            ApplicationModel.time = seconds;
             foreach (GameObject gameObject in gameObjects)
             {
                 gameObject.SetActive(false);
@@ -111,25 +118,36 @@ public class PressurePlateInteraction : MonoBehaviour
 
     public void SentenceCompletion()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-        Time.timeScale = 1;
+        if (SaveUsage.SaveGameTime())
+        {
+            ApplicationModel.time = 0;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+            Time.timeScale = 1;
+        }
     }
 
     public void MainMenu()
     {
-        SceneManager.LoadScene(2);
-        Time.timeScale = 1;
+        if (SaveUsage.SaveGameTime())
+        {
+            ApplicationModel.time = 0;
+            SceneManager.LoadScene(2);
+            Time.timeScale = 1;
+        }
     }
 
     public void Retry()
     {
+        ApplicationModel.time = seconds;
         SceneManager.LoadScene(3);
         Time.timeScale = 1;
+        CountTime = true;
     }
 
     public void Pause()
     {
         Time.timeScale = 1;
+        CountTime = true;
         //if (Stage1Prompt.activeSelf)
         //{
         //    Stage1Prompt.GetComponent<AudioSource>().Play();
@@ -157,6 +175,12 @@ public class PressurePlateInteraction : MonoBehaviour
 // Update is called once per frame
 void Update()
     {
+        
+        if (CountTime)
+        {
+            seconds += Time.deltaTime;
+            
+        }
         StageText.GetComponent<TextMeshProUGUI>().SetText("Stage :" + stage);
         if (SentenceCompletionAlert.activeSelf)
         {
@@ -197,6 +221,7 @@ void Update()
             //    Stage3Prompt.GetComponent<AudioSource>().Pause();
             //}
             Time.timeScale = 0f;
+            CountTime = false;
         }
         //if (UserChancePrompt.activeSelf)
         //{

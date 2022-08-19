@@ -7,7 +7,7 @@ public class TempoMaker_Coroutine : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     // Start is called before the first frame update
     private IEnumerator coroutine;
-    public float INTERVAL_SECONDS = 1.0f;//Can be changed from the inspector (and of course from the script)
+    private float INTERVAL_SECONDS = 1.30f;//Can be changed from the inspector (and of course from the script)
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -33,7 +33,7 @@ public class TempoMaker_Coroutine : MonoBehaviour
             yield return
              new WaitForSecondsRealtime(INTERVAL_SECONDS);
             audioSource.Play();
-            print("Played");
+            Debug.Log("Beat played at : " + Time.timeAsDouble);
         }
     }
 }

@@ -8,6 +8,7 @@ public static class ApplicationModel
     public static List<string> current_sentence;
     public static int set;
     public static int stage;
+    public static float time=0f;
 
     static ApplicationModel()
     {

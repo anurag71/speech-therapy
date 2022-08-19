@@ -90,8 +90,9 @@ GameObject:
   - component: {fileID: 1821971252159413527}
   - component: {fileID: 1821971252159413526}
   - component: {fileID: 4228872658166760239}
-  - component: {fileID: 6978878345300381507}
   - component: {fileID: 4293097484928883867}
+  - component: {fileID: -1139474143876293137}
+  - component: {fileID: 2298933550501150248}
   m_Layer: 5
   m_Name: Word
   m_TagString: Untagged
@@ -223,22 +224,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &6978878345300381507
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1821971252159413524}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 60
 --- !u!111 &4293097484928883867
 Animation:
   m_ObjectHideFlags: 0
@@ -254,6 +239,42 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!95 &-1139474143876293137
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821971252159413524}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!58 &2298933550501150248
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821971252159413524}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -156.75726, y: -0.6451111}
+  serializedVersion: 2
+  m_Radius: 31.937439
 --- !u!1001 &4756335043599220574
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -287,6 +308,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4422077563263228690, guid: 77e7c840a37024e10a4418bd32834171, type: 3}
       propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422077563263228690, guid: 77e7c840a37024e10a4418bd32834171, type: 3}
+      propertyPath: m_HorizontalAlignment
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4422077563263228692, guid: 77e7c840a37024e10a4418bd32834171, type: 3}
