@@ -16,7 +16,6 @@ public class SceneSwitch : MonoBehaviour
         {
             ApplicationModel.current_sentence = ApplicationModel.PreTestingSet[level - 1];
         }
-        Debug.Log("Word count = " + ApplicationModel.current_sentence.Count);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

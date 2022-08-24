@@ -11,7 +11,6 @@ public class GenerateSentence : MonoBehaviour
     [SerializeField] public GameObject word;
     [SerializeField] public GameObject thisCanvas;
     [SerializeField] public GameObject PressurePlate;
-    [SerializeField] AudioSource audioSource;
     // Start is called before the first frame update
     private IEnumerator coroutine;
     private float INTERVAL_SECONDS = 1.00f;
@@ -26,8 +25,8 @@ public class GenerateSentence : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Word count = " + sentences.Count);
         canvasDimensions = thisCanvas.GetComponent<RectTransform>().rect;
-        audioSource = GetComponent<AudioSource>();
         //coroutine = TempoMake();
         //StartCoroutine(coroutine);
         coroutine = LoadWords();
@@ -37,9 +36,11 @@ public class GenerateSentence : MonoBehaviour
 
     IEnumerator LoadWords()
     {
+        Debug.Log("Load Words Called");
         Vector2 position = PressurePlate.GetComponent<Transform>().localPosition;
         while (i < sentences.Count)
         {
+            Debug.Log("Word position: " + i);
             GameObject icon = Instantiate(word) as GameObject;
             icon.transform.SetParent(GameHolder.transform);
             icon.name = "Word " + (i + 1);
@@ -59,6 +60,7 @@ public class GenerateSentence : MonoBehaviour
             AnimationCurve curve = AnimationCurve.Linear(m_start_time, m_start_value, m_end_time, m_end_value);
             clip.name = "WordAnimationClipAuto"; // set name
             clip.legacy = true;
+            clip.frameRate = 60;
             clip.wrapMode = WrapMode.Loop;
             clip.SetCurve("", typeof(Transform), "localPosition.x", curve);
 
@@ -70,9 +72,19 @@ public class GenerateSentence : MonoBehaviour
             animation.Play();
             Debug.Log("Generate Time for " + sentences[i] + " : " + Time.timeAsDouble);
             i++;
-            Debug.Log("Time Scale: " + Time.timeScale);
-            yield return new WaitForSeconds(1);
-            
+            if (Time.timeScale == 0)
+            {
+                Debug.Log("Paused");
+            }
+            else
+            {
+                Debug.Log("Not Paused");
+            }
+
+            Debug.Log("i value " + i);
+
+            yield return new WaitForSecondsRealtime(1.0f);
+            Debug.Log("Done waiting");
         }
         
     }
@@ -94,9 +106,6 @@ public class GenerateSentence : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (ApplicationModel.stage == 5)
-        {
-            StopCoroutine(coroutine);
-        }
+        
     }
 }

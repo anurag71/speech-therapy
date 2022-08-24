@@ -56,6 +56,7 @@ public class PressurePlateInteraction : MonoBehaviour
         {
             WordSound = PopupTextHolder.GetComponent<AudioSource>();
             WordSound.clip = Resources.Load<AudioClip>("WordSounds/" + gameObject.GetComponentInChildren<TextMeshProUGUI>().text);
+            WordSound.volume = 0.75f;
             WordSound.Play();
             Debug.Log("Sound Played Time for " + gameObject.GetComponentInChildren<TextMeshProUGUI>().text + " : " + Time.timeAsDouble);
         }
@@ -105,7 +106,10 @@ public class PressurePlateInteraction : MonoBehaviour
             foreach (GameObject gameObject in gameObjects)
             {
                 gameObject.SetActive(false);
-                Destroy(gameObject);
+            }
+            if (SaveUsage.SaveGameTime())
+            {
+                ApplicationModel.time = 0;
             }
             SentenceCompletionAlert.SetActive(true);
         }
@@ -118,12 +122,8 @@ public class PressurePlateInteraction : MonoBehaviour
 
     public void SentenceCompletion()
     {
-        if (SaveUsage.SaveGameTime())
-        {
-            ApplicationModel.time = 0;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-            Time.timeScale = 1;
-        }
+        Time.timeScale = 1;
+        SceneManager.LoadScene(2);
     }
 
     public void MainMenu()
@@ -131,13 +131,15 @@ public class PressurePlateInteraction : MonoBehaviour
         if (SaveUsage.SaveGameTime())
         {
             ApplicationModel.time = 0;
-            SceneManager.LoadScene(2);
             Time.timeScale = 1;
+            SceneManager.LoadScene(2);
+            
         }
     }
 
     public void Retry()
     {
+        ApplicationModel.stage = 1;
         ApplicationModel.time = seconds;
         Time.timeScale = 1;
         SceneManager.LoadScene(3);
@@ -183,6 +185,7 @@ void Update()
         StageText.GetComponent<TextMeshProUGUI>().SetText("Stage :" + stage);
         if (SentenceCompletionAlert.activeSelf)
         {
+            ApplicationModel.stage = 1;
             Time.timeScale = 0f;
         }
         if (StageCompletionAlert.activeSelf)
