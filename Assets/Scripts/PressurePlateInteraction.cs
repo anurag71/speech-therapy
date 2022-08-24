@@ -47,7 +47,7 @@ public class PressurePlateInteraction : MonoBehaviour
 
         GameObject gameObject = collision.gameObject;
 
-        //Debug.Log("Collision Time for " + gameObject.GetComponentInChildren<TextMeshProUGUI>().text + " : " + Time.timeAsDouble);
+        Debug.Log("Collision Time for " + gameObject.GetComponentInChildren<TextMeshProUGUI>().text + " : " + Time.timeAsDouble);
 
         collision.gameObject.GetComponentInChildren<TextMeshProUGUI>().outlineWidth = 0.2f;
         collision.gameObject.GetComponentInChildren<TextMeshProUGUI>().outlineColor = new Color32(255, 128, 0, 255);
@@ -57,7 +57,7 @@ public class PressurePlateInteraction : MonoBehaviour
             WordSound = PopupTextHolder.GetComponent<AudioSource>();
             WordSound.clip = Resources.Load<AudioClip>("WordSounds/" + gameObject.GetComponentInChildren<TextMeshProUGUI>().text);
             WordSound.Play();
-            //Debug.Log("Sound Played Time for " + gameObject.GetComponentInChildren<TextMeshProUGUI>().text + " : " + Time.timeAsDouble);
+            Debug.Log("Sound Played Time for " + gameObject.GetComponentInChildren<TextMeshProUGUI>().text + " : " + Time.timeAsDouble);
         }
 
         Time.timeScale = 0f;
@@ -139,9 +139,8 @@ public class PressurePlateInteraction : MonoBehaviour
     public void Retry()
     {
         ApplicationModel.time = seconds;
-        SceneManager.LoadScene(3);
         Time.timeScale = 1;
-        CountTime = true;
+        SceneManager.LoadScene(3);
     }
 
     public void Pause()
@@ -204,6 +203,7 @@ void Update()
         //}
         if (PauseMenu.activeSelf)
         {
+            PauseMenu.GetComponentInChildren<Animation>().Play();
             foreach (GameObject gameObject in gameObjects)
             {
                 gameObject.SetActive(false);

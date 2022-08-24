@@ -1,39 +1,49 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class TempoMaker_Coroutine : MonoBehaviour
 {
-    [SerializeField] AudioSource audioSource;
-    // Start is called before the first frame update
-    private IEnumerator coroutine;
-    private float INTERVAL_SECONDS = 1.30f;//Can be changed from the inspector (and of course from the script)
+    public AudioSource audioSource;
+    public double bpm = 60.0F;
+
+    double nextTick = 0.0F; // The next tick in dspTime
+    double sampleRate = 0.0F;
+    bool ticked = false;
+
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-        coroutine = TempoMake();
-        StartCoroutine(coroutine);
+        double startTick = AudioSettings.dspTime;
+        sampleRate = AudioSettings.outputSampleRate;
 
+        nextTick = startTick + (60.0 / bpm);
     }
 
-    // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        //Stop while holding down the left mouse button, restart when released
-        if (ApplicationModel.stage==5)
+        if (!ticked && nextTick >= AudioSettings.dspTime)
         {
-            StopCoroutine(coroutine);
+            ticked = true;
+            BroadcastMessage("OnTick");
         }
     }
 
-    IEnumerator TempoMake()//Plays a sound at regular intervals and displays "Played" on the console
+    // Just an example OnTick here
+    void OnTick()
     {
-        while (true)
+       Debug.Log("Tick played at : " + Time.timeAsDouble);
+       audioSource.Play();
+    }
+
+    void FixedUpdate()
+    {
+        double timePerTick = 60.0f / bpm;
+        double dspTime = AudioSettings.dspTime;
+
+        while (dspTime >= nextTick)
         {
-            yield return
-             new WaitForSecondsRealtime(INTERVAL_SECONDS);
-            audioSource.Play();
-            Debug.Log("Beat played at : " + Time.timeAsDouble);
+            ticked = false;
+            nextTick += timePerTick;
         }
+
     }
 }
